@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import numpy as np
 
 
-def start_window():
+def start_window(): 
     layout = [
         [sg.Text("任意の整数を入力してね")],
         [sg.InputText()], [sg.Button("OK")]
@@ -14,11 +14,11 @@ def start_window():
         if event == sg.WIN_CLOSED:
             break
 
-        if event =="OK":
-            name = values[0]
+        if event =="OK": 
             window.close()
+            rule_window()
 
-start_window()
+    window.close()
 
 def rule_window():
     layout = [
@@ -34,20 +34,19 @@ def rule_window():
         event, values = window.read()
         if event == sg.WIN_CLOSED:
             break
-        if event == "Game Start":
+        if event == "ゲームスタート":
             answer = np.random.randint(1, 101)
             window.close()
+            game_window(answer)
+        
+    window.close()
 
-        window.close()
- 
-rule_window()
-
-def game_window(name, answer):
+def game_window(answer):
     warning = ""
     hint = ""
     attempts = 0
     layout = [
-        [sg.Text(f"Enter a guess from 1 to 100:"), sg.Spin(values=list(range(1, 101)), initial_value=1, size=(3, 1))],
+        [sg.Text(f"数の推定(1~100):"), sg.Spin(values=list(range(1, 101)), initial_value=1, size=(3, 1))],
         [sg.Text(warning, key="-WARNING-")],
         [sg.Button("Submit")],
         [sg.Text(hint, key="-HINT-")]
@@ -74,7 +73,8 @@ def game_window(name, answer):
                     else:
                         attempts += 1
                         window.close()
-                        end_window(name, answer, attempts)
+                        break
+                        #end_window(answer, attempts)
                 else:
                     warning = "Please enter a guess between 1 and 100"
 
@@ -86,4 +86,7 @@ def game_window(name, answer):
 
     window.close()
 
-game_window(name, answer)
+
+start_window()       
+rule_window()
+game_window()
